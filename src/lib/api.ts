@@ -30,7 +30,51 @@ interface OpenFoodFactsSearchResponse {
   products?: OpenFoodFactsProduct[];
 }
 
-const BASE_URL = "https://world.openfoodfacts.org/api/v2/product/search";
+const BASE_URL = "https://world.openfoodfacts.org/api/v2/search";
+
+export const fetchAgriProducts = async (params: FetchParams = {}): Promise<ProductResponse> => {
+  const normalized: Required<FetchParams> = {
+    category: params.category ?? "fruits",
+    query: params.query ?? "",
+    page: params.page ?? 1,
+    pageSize: params.pageSize ?? 12,
+  };
+
+  try {
+    const url = new URL(BASE_URL);
+
+    url.searchParams.set("page", String(normalized.page));
+    url.searchParams.set("page_size", String(normalized.pageSize));
+
+    if (normalized.category) {
+      url.searchParams.set("categories_tags_en", normalized.category);
+    }
+
+    if (normalized.query) {
+      url.searchParams.set("search_terms", normalized.query);
+    }
+
+    url.searchParams.set("fields", "code,product_name,generic_name,categories,image_url");
+
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = (await res.json()) as OpenFoodFactsSearchResponse;
+    const mapped = (Array.isArray(data.products) ? data.products : []).map(toProduct);
+
+    const count = typeof data.count === "number" ? data.count : mapped.length;
+
+    return {
+      count,
+      page: normalized.page,
+      page_count: Math.max(1, Math.ceil(count / normalized.pageSize)),
+      products: mapped,
+    };
+  } catch (error) {
+    console.warn("API failed, using mock data:", error);
+    return filterAndPaginate(getMockProducts(), normalized);
+  }
+};
 
 function computeBasePrice(categories?: string) {
   const lower = (categories || "").toLowerCase();
@@ -124,40 +168,3 @@ export interface FetchParams {
   page?: number;
   pageSize?: number;
 }
-
-export const fetchAgriProducts = async (params: FetchParams = {}): Promise<ProductResponse> => {
-  const normalized: Required<FetchParams> = {
-    category: params.category ?? "fruits",
-    query: params.query ?? "",
-    page: params.page ?? 1,
-    pageSize: params.pageSize ?? 12,
-  };
-
-  try {
-    const url = new URL(BASE_URL);
-    url.searchParams.set("json", "1");
-    url.searchParams.set("page", String(normalized.page));
-    url.searchParams.set("page_size", String(normalized.pageSize));
-    url.searchParams.set("country", "ng");
-    url.searchParams.set("sort_by", "popularity");
-    if (normalized.category) url.searchParams.set("category", normalized.category);
-    if (normalized.query) url.searchParams.set("q", normalized.query);
-
-    const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const data = (await res.json()) as OpenFoodFactsSearchResponse;
-    const mapped = (Array.isArray(data.products) ? data.products : []).map(toProduct);
-
-    const count = typeof data.count === "number" ? data.count : mapped.length;
-    return {
-      count,
-      page: normalized.page,
-      page_count: Math.max(1, Math.ceil(count / normalized.pageSize)),
-      products: mapped,
-    };
-  } catch (error) {
-    console.warn("API failed, using mock data:", error);
-    return filterAndPaginate(getMockProducts(), normalized);
-  }
-};

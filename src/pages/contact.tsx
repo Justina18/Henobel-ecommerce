@@ -204,7 +204,7 @@ export default function ContactPage() {
                 <Button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2"
+                  className="w-full bg-[#000] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2"
                 >
                   <Send className={cn("mr-2 h-4 w-4", status === "submitting" && "animate-spin")} />
                   {status === "submitting" ? "Sending..." : "Send Message"}

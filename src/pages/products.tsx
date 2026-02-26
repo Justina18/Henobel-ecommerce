@@ -121,7 +121,7 @@ export default function ProductsPage() {
               <Button
                 key={cat}
                 variant={category === cat ? "default" : "outline"}
-                className={cn("capitalize", category === cat ? "bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" : "border-[#225609]/20 bg-surface-container-high text-[#040c01] hover:bg-[#eef7e8]")}
+                className={cn("capitalize", category === cat ? "bg-[#000] text-white shadow-md3-1 hover:bg-[#31611A] hover:shadow-md3-2" : "border-[#225609]/20 bg-surface-container-high text-[#040c01] hover:bg-[#eef7e8]")}
                 onClick={() => {
                   setCategory(cat);
                   setPage(1);

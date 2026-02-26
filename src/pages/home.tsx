@@ -69,7 +69,7 @@ export default function HomePage() {
               Henobel Agro Tech connects Nigerian smallholder farmers to modern markets with fair pricing, transparent sourcing, and climate-smart logistics.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button className="bg-[#225609] text-white hover:bg-[#1a4207]" onClick={() => navigate("/products")}>
+              <Button className="bg-[#000000] text-white hover:bg-[#1a4207]" onClick={() => navigate("/products")}>
                 Shop Products
               </Button>
               <Button variant="outline" className="bg-surface-container-high text-[#040c01] hover:bg-surface-container-medium" onClick={() => navigate("/about")}>
@@ -78,19 +78,77 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              { icon: Sprout, title: "Regenerative Farming", text: "Soil-first practices and farmer training across communities." },
-              { icon: Truck, title: "Efficient Delivery", text: "Cold-chain routing that reduces spoilage and delays." },
-              { icon: ShieldCheck, title: "Traceable Supply", text: "Clear sourcing signals from farm clusters to retail." },
-              { icon: Leaf, title: "Sustainability Impact", text: "Lower waste and more resilient harvest cycles." },
-            ].map((item) => (
-              <Card key={item.title} className="p-4 text-[#040c01] shadow-md3-1 bg-surface-container-highest/90">
-                <item.icon className="mb-3 h-6 w-6 text-[#ffc600]" />
-                <h2 className="mb-2 font-semibold">{item.title}</h2>
-                <p className="text-sm leading-relaxed text-onSurfaceVariant">{item.text}</p>
+          <div className="lg:ml-auto lg:w-[520px]">
+            <div className="grid grid-cols-2 gap-4 auto-rows-[150px]">
+
+              <Card className="col-span-1 row-span-2 rounded-3xl border border-[#225609]/10 bg-surface-container-highest/90 p-6 shadow-md3-1">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#225609]/10 px-3 py-1 text-xs font-semibold text-[#225609]">
+                  <span className="h-2 w-2 rounded-full bg-[#ffc600]" />
+                  How Henobel works
+                </div>
+
+                <h2 className="text-xl font-bold leading-tight tracking-tight text-[#040c01]">
+                  Smarter supply from <span className="text-[#225609]">farm</span> to{" "}
+                  <span className="text-[#ffc600]">market</span>.
+                </h2>
+
+                <p className="mt-2 text-sm leading-relaxed text-onSurfaceVariant">
+                  Traceable sourcing, optimized logistics, and measurable sustainability.
+                </p>
+
+                <div className="mt-4 flex items-center gap-2 text-xs cursor font-semibold text-[#225609] opacity-80">
+                  Learn more →
+                </div>
               </Card>
-            ))}
+
+              <Card className="col-span-1 row-span-2 relative overflow-hidden rounded-3xl border border-[#225609]/10 bg-[#040c01] p-6 shadow-md3-1">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#040c01] via-[#040c01]/85 to-[#ffc600]/15" />
+                <div className="relative z-10 flex h-full flex-col justify-between">
+                  <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+                    <span className="h-2 w-2 rounded-full bg-[#ffc600]" />
+                    Live traceability
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                      <p className="text-xs text-white/70">Quality Signal</p>
+                      <p className="mt-1 text-base font-bold text-white">A-grade produce</p>
+                      <div className="mt-3 h-2 w-full rounded-full bg-white/10">
+                        <div className="h-2 w-[70%] rounded-full bg-[#ffc600]" />
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                      <p className="text-xs text-white/70">Delivery ETA</p>
+                      <p className="mt-1 text-base font-bold text-white">24–48 hours</p>
+                      <p className="mt-1 text-xs text-white/70">
+                        Optimized routing for freshness.
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-white/60">
+                    Transparent sourcing • Fair pricing • Modern logistics
+                  </p>
+                </div>
+              </Card>
+
+              <Card className="rounded-3xl border border-[#225609]/10 bg-surface-container-highest/90 p-5 shadow-md3-1">
+                <Truck className="mb-2 h-5 w-5 text-[#ffc600]" />
+                <h3 className="text-sm font-semibold text-[#040c01]">Efficient Delivery</h3>
+                <p className="mt-1 text-xs leading-relaxed text-onSurfaceVariant">
+                  Cold-chain routing that reduces spoilage.
+                </p>
+              </Card>
+
+              <Card className="rounded-3xl border border-[#225609]/10 bg-surface-container-highest/90 p-5 shadow-md3-1">
+                <Leaf className="mb-2 h-5 w-5 text-[#ffc600]" />
+                <h3 className="text-sm font-semibold text-[#040c01]">Sustainability Impact</h3>
+                <p className="mt-1 text-xs leading-relaxed text-onSurfaceVariant">
+                  Lower waste and resilient harvest cycles.
+                </p>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
@@ -146,7 +204,7 @@ export default function HomePage() {
             <p className="mb-6 leading-relaxed text-onSurfaceVariant">
               Browse products, build your cart, and send us sourcing or partnership enquiries from a single client-side storefront.
             </p>
-            <Button className="bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={() => navigate("/contact")}>
+            <Button className="bg-[#000000] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={() => navigate("/contact")}>
               Contact Our Team
             </Button>
           </Card>

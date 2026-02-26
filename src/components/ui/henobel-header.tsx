@@ -115,7 +115,7 @@ export function HenobelHeader({ cartCount = 0 }: HenobelHeaderProps) {
                   className="w-full rounded-full bg-surface-container-low py-2 pl-10 pr-3 text-[#040c01] shadow-md3-1 outline-none ring-0 focus:ring-2 focus:ring-[#7ac803]"
                 />
               </div>
-              <Button className="bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={submitSearch}>
+              <Button className="bg-[#000000] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={submitSearch}>
                 Go
               </Button>
             </div>

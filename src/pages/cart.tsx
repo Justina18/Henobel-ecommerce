@@ -40,7 +40,7 @@ export default function CartPage() {
           </div>
           <h1 className="mb-2 text-3xl font-bold">Your cart is empty</h1>
           <p className="mb-6 text-gray-600">Looks like you have not added any products yet.</p>
-          <Button className="bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={() => navigate("/products")}>
+          <Button className="bg-[#000000] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2" onClick={() => navigate("/products")}>
             Browse Products
           </Button>
         </main>
