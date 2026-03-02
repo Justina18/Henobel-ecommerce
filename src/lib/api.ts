@@ -20,9 +20,12 @@ export interface ProductResponse {
 interface OpenFoodFactsProduct {
   code?: string;
   product_name?: string;
-  categories?: string;
-  image_url?: string;
+  product_name_en?: string;
   generic_name?: string;
+  generic_name_en?: string;
+  categories?: string;
+  categories_en?: string;
+  image_url?: string;
 }
 
 interface OpenFoodFactsSearchResponse {
@@ -30,9 +33,11 @@ interface OpenFoodFactsSearchResponse {
   products?: OpenFoodFactsProduct[];
 }
 
-const BASE_URL = "https://world.openfoodfacts.org/api/v2/search";
+const BASE_URL = "https://world.openfoodfacts.org/api/v2/search/lc=en";
 
-export const fetchAgriProducts = async (params: FetchParams = {}): Promise<ProductResponse> => {
+export const fetchAgriProducts = async (
+  params: FetchParams = {},
+): Promise<ProductResponse> => {
   const normalized: Required<FetchParams> = {
     category: params.category ?? "fruits",
     query: params.query ?? "",
@@ -54,13 +59,18 @@ export const fetchAgriProducts = async (params: FetchParams = {}): Promise<Produ
       url.searchParams.set("search_terms", normalized.query);
     }
 
-    url.searchParams.set("fields", "code,product_name,generic_name,categories,image_url");
+    url.searchParams.set(
+      "fields",
+      "code,product_name,product_name_en,generic_name,generic_name_en,categories,categories_en,image_url",
+    );
 
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = (await res.json()) as OpenFoodFactsSearchResponse;
-    const mapped = (Array.isArray(data.products) ? data.products : []).map(toProduct);
+    const mapped = (Array.isArray(data.products) ? data.products : []).map(
+      toProduct,
+    );
 
     const count = typeof data.count === "number" ? data.count : mapped.length;
 
@@ -86,16 +96,33 @@ function computeBasePrice(categories?: string) {
 }
 
 function toProduct(p: OpenFoodFactsProduct): Product {
-  const basePrice = computeBasePrice(p.categories);
+  const name =
+    p.product_name_en ||
+    p.product_name ||
+    p.generic_name_en ||
+    p.generic_name ||
+    "Unnamed Product";
+
+  const categories =
+    p.categories_en ||
+    p.categories ||
+    "Other";
+
+  const basePrice = computeBasePrice(categories);
 
   return {
     id: p.code || crypto.randomUUID(),
-    name: p.product_name || p.generic_name || "Unnamed Product",
-    description: p.generic_name || p.product_name || "Sustainably sourced agricultural produce",
+    name,
+    description:
+      p.generic_name_en ||
+      p.generic_name ||
+      "Sustainably sourced agricultural produce",
     price: Math.round(basePrice * (0.8 + Math.random() * 0.4)),
-    category: p.categories?.split(",").shift()?.trim() || "Other",
+    category: categories.split(",").shift()?.trim() || "Other",
     rating: parseFloat((Math.random() * 2 + 3).toFixed(1)),
-    imageUrl: p.image_url || `https://picsum.photos/400/400?random=${p.code || Math.random()}`,
+    imageUrl:
+      p.image_url ||
+      `https://picsum.photos/400/400?random=${p.code || Math.random()}`,
     inStock: Math.random() > 0.1,
     quantity: 1,
   };
@@ -135,12 +162,16 @@ function getMockProducts(): Product[] {
   });
 }
 
-function filterAndPaginate(products: Product[], params: Required<FetchParams>): ProductResponse {
+function filterAndPaginate(
+  products: Product[],
+  params: Required<FetchParams>,
+): ProductResponse {
   const category = params.category.toLowerCase();
   const query = params.query.trim().toLowerCase();
 
   const filtered = products.filter((product) => {
-    const categoryMatch = !category || product.category.toLowerCase().includes(category);
+    const categoryMatch =
+      !category || product.category.toLowerCase().includes(category);
     const queryMatch =
       !query ||
       product.name.toLowerCase().includes(query) ||

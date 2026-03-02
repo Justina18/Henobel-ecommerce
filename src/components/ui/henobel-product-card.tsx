@@ -54,7 +54,7 @@ export function HenobelProductCard({ product, onAddToCart }: HenobelProductCardP
             className={cn(
               "px-4 py-2 text-sm",
               product.inStock
-                ? "bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2"
+                ? "bg-[#31611a] text-white shadow-md3-1 hover:bg-[#000] hover:shadow-md3-2"
                 : "cursor-not-allowed bg-surface-container-medium text-gray-500 hover:bg-surface-container-medium"
             )}
           >

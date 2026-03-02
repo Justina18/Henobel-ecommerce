@@ -119,7 +119,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button className="mt-6 w-full bg-[#225609] text-white shadow-md3-1 hover:bg-[#1a4207] hover:shadow-md3-2">
+              <Button className="mt-6 w-full bg-[#31611a] text-white shadow-md3-1 hover:bg-[#000] hover:shadow-md3-2">
                 <CreditCard className="mr-2 h-4 w-4" /> Proceed to Checkout
               </Button>
               <Button
